@@ -13,7 +13,7 @@ sigma2_a_bc = (sigma_a).^2 - (sigma_ab*(sigma_b).^2 ...
     + 2*sigma_ab*sigma_ac*sigma_bc + sigma_ac*(sigma_c).^2);
 S = length(ysm);
 C_coeff_inv = (sqrt(2*pi)*sigma_e)^S * sqrt(2 * pi * sigma2_a_bc);
-func = @(b, c)(bc_dep(b, c, D, ysm, mu_a_bc_b, mu_a_bc_c, sigma2_a_bc, ...
+func = @(b, c)(bc_dep_vec(b, c, D, ysm, mu_a_bc_b, mu_a_bc_c, sigma2_a_bc, ...
     1/C_coeff_inv, sigma_e, S));
 end
 
@@ -48,4 +48,26 @@ for i = 1:size(bmat, 1)
 end
 %out_mat = row2mat(out, size(bmat));
 
+end
+
+function out_mat = bc_dep_vec(bmat, cmat, D, ysm, mu_a_bc_b, mu_a_bc_c, sigma2_a_bc, ...
+    C_coeff, sigma_e, S)
+% check = bc_dep(bmat, cmat, D, ysm, mu_a_bc_b, mu_a_bc_c, sigma2_a_bc, C_coeff, sigma_e, S);
+b = mat2row(bmat);
+c = mat2row(cmat);
+D_s = D*ones(size(b)) - ysm*b;
+mu_a_bc = mu_a_bc_b*b + mu_a_bc_c*c;
+C_exp = sum(D_s.^2, 1)/(2*sigma_e^2) + (mu_a_bc.^2)/(2*sigma2_a_bc);
+
+E = sum(D_s, 1)/(sigma_e^2) + mu_a_bc/sigma2_a_bc;
+F = S/(sigma_e^2) + 1/(sigma2_a_bc);
+
+exp_val = (E.^2)./(2*F) -C_exp;
+out = C_coeff.* exp(exp_val) .* sqrt(2*pi./F);
+out_mat = row2mat(out, size(bmat));
+% err = check-out_mat;
+% tot_err = sum(sum(err.^2));
+% if tot_err > 0.0001
+%     fprintf('%f\n', tot_err);
+% end
 end

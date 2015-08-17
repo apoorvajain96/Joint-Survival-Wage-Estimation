@@ -1,5 +1,5 @@
-function out = joint_survival_wage_estimation(lW_r, y, ysm, idind, X, E, age, mig_age, beta_y, gamma1, sigma_ab, sigma_b, ...
-    sigma_ac, sigma_bc, sigma_a, sigma_c, sigma_e, beta_E, beta_x, lambda)
+function [out] = joint_survival_wage_estimation(lW_r, y, ysm, idind, X, E, age, mig_age, lambda, gamma1, sigma_ab, sigma_b, ...
+    sigma_ac, sigma_bc, sigma_a, sigma_c, sigma_e, beta_E, beta_x, beta_y)
 D = lW_r - y * beta_y - gamma1 * ysm;
 
 uids = unique(idind);
@@ -19,10 +19,10 @@ for j = 1:length(uids)
     % likelihood_i = @(b, c)(survival_func(c) .* prob_func(b, c) .* wage_func(b, c));
     likelihood_i = @(b, c)(bc_dep(b, c, @(b,c)survival_func(c), prob_func, wage_func));
     likelihood_i_integral = integral2(likelihood_i, -bmax, bmax, -cmax, cmax);
-    fprintf('%d %f\n', i, likelihood_i_integral);
     out = out + log(likelihood_i_integral);
+%    log(likelihood_i_integral)
 end
-
+fprintf('%f\n', out);
 end
 
 function test_matrix(m, name)
@@ -32,6 +32,9 @@ function test_matrix(m, name)
     if any(any(abs(m) == Inf))
         fprintf([name 'inf\n']);
     end
+%     if any(any(m < 0))
+%         fprintf([name 'neg\n']);
+%     end
 end
 
 function out = bc_dep(b,c,f1,f2,f3)
