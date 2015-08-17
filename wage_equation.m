@@ -27,13 +27,9 @@ end
 
 function out_mat = bc_dep(bmat, cmat, D, ysm, mu_a_bc_b, mu_a_bc_c, sigma2_a_bc, ...
     C_coeff, sigma_e, S)
-%b = mat2row(bmat);
-%c = mat2row(cmat);
-out_mat = zeros(size(bmat));
-for i = 1:size(bmat, 1)
-    for j = 1:size(bmat, 2)
-        b=bmat(i,j);
-        c=cmat(i,j);
+b = mat2row(bmat);
+c = mat2row(cmat);
+
         D_s = D*ones(size(b)) - ysm*b;
         mu_a_bc = mu_a_bc_b*b + mu_a_bc_c*c;
         C_exp = sum(D_s.^2)/(2*sigma_e^2) + (mu_a_bc.^2)/(2*sigma2_a_bc);
@@ -43,9 +39,7 @@ for i = 1:size(bmat, 1)
         
         exp_val = (E.^2)./(2*F) -C_exp;
         out = C_coeff.* exp(exp_val) .* sqrt(2*pi./F);
-        out_mat(i,j) = out;
-    end
-end
-%out_mat = row2mat(out, size(bmat));
+
+out_mat = row2mat(out, size(bmat));
 
 end
