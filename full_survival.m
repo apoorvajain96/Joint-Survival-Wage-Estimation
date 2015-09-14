@@ -21,5 +21,5 @@ function l = lambda0(age, lambda)
 end
 
 function out = c_dep(c, hT, SumGt)
-    out = gT * exp(c - SumGt*exp(c));
+    out = hT * exp(c - SumGt*exp(c));
 end
