@@ -23,4 +23,10 @@ lambda = 0.1;
 
 guess_param = [lambda; gamma1; sigma_ab; sigma_b; ...
     sigma_ac; sigma_bc; sigma_a; sigma_c; sigma_e; beta_E; beta_x; beta_y];
-func=overall_joint_estimation_cost_function(lw_r, y, ysm, idind, X, E, age, mig_age);
+
+%func = overall_joint_estimation_cost_function(lw_r, y, ysm, idind, X, E, age, mig_age);
+
+[p fval history2] = joint(guess_param, lw_r, y, ysm, idind, X, E, age, mig_age)
+
+
+
