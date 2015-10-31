@@ -11,8 +11,8 @@ func = overall_joint_estimation_cost_function(lw_r, y, ysm, idind, X, E, age, mi
                 history = history(2:20,:); 
             end
           history = [history; p'];
-          history
-          save('param_history', 'history', '-ascii')
+          %history
+          save('param_history_new', 'history', '-ascii')
         end
    end
 
