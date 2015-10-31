@@ -18,7 +18,7 @@ func = @(b, c)(bc_dep_vec(b, c, D, ysm, mu_a_bc_b, mu_a_bc_c, sigma2_a_bc, ...
 end
 
 function row = mat2row(mat)
-    row = mat(:)';
+    row = mat(:)';  % stack all columns in the matrix in 1 column and then transpose it for row
 end
 
 function mat = row2mat(row, sz)
@@ -41,7 +41,7 @@ for i = 1:size(bmat, 1)
         E = sum(D_s)/(sigma_e^2) + mu_a_bc/sigma2_a_bc;
         F = S/(sigma_e^2) + 1/(sigma2_a_bc);
         
-        exp_val = (E.^2)./(2*F) -C_exp;
+        exp_val = (E.^2)./(2*F) - C_exp;
         out = C_coeff.* exp(exp_val) .* sqrt(2*pi./F);
         out_mat(i,j) = out;
     end
@@ -62,7 +62,7 @@ C_exp = sum(D_s.^2, 1)/(2*sigma_e^2) + (mu_a_bc.^2)/(2*sigma2_a_bc);
 E = sum(D_s, 1)/(sigma_e^2) + mu_a_bc/sigma2_a_bc;
 F = S/(sigma_e^2) + 1/(sigma2_a_bc);
 
-exp_val = (E.^2)./(2*F) -C_exp;
+exp_val = (E.^2)./(2*F) - C_exp;
 out = C_coeff.* exp(exp_val) .* sqrt(2*pi./F);
 out_mat = row2mat(out, size(bmat));
 % err = check-out_mat;

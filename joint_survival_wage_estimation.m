@@ -1,6 +1,6 @@
-function [out] = joint_survival_wage_estimation(lW_r, y, ysm, idind, X, E, age, mig_age, lambda, gamma1, sigma_ab, sigma_b, ...
-    sigma_ac, sigma_bc, sigma_a, sigma_c, sigma_e, beta_E, beta_x, beta_y)
-D = lW_r - y * beta_y - gamma1 * ysm;
+function [out] = joint_survival_wage_estimation(lW_r2010, y, ysm, idind, X, E, age, mig_age,year_fe, lambda, gamma1, sigma_ab, sigma_b, ...
+    sigma_ac, sigma_bc, sigma_a, sigma_c, sigma_e, beta_E, beta_x, beta_y, beta_year)
+D = lW_r2010 - y * beta_y - gamma1 * ysm - year_fe*beta_year;
 
 uids = unique(idind);
 
