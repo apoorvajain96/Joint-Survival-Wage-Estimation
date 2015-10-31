@@ -20,6 +20,6 @@ function l = lambda0(age, lambda)
   l = lambda*ones(size(age));
 end
 
-function out = c_dep(c, hT, SumGt)
-    out = hT * exp(c - SumGt*exp(c));
+function out = c_dep(c, hT, Sumht)
+    out = hT * exp(c - Sumht*exp(c));
 end
